@@ -8,6 +8,7 @@ import Tools from "@/components/Tools";
 import Pricing from "@/components/Pricing";
 import Feedback from "@/components/Feedback";
 import Footer from "@/components/Footer";
+import AuthSimulator from "@/components/AuthSimulator";
 
 const Index = () => {
   // Scroll to top when the component mounts
@@ -45,6 +46,7 @@ const Index = () => {
       </div>
       
       <Footer />
+      <AuthSimulator />
     </motion.div>
   );
 };
