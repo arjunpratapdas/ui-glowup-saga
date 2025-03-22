@@ -46,6 +46,45 @@
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
+
+  .light-mode {
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 98%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 98%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 213 97% 50%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 217 100% 55%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215 20% 45%;
+
+    --accent: 213 97% 87%;
+    --accent-foreground: 217 92% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 213 97% 50%;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
 }
 
 @layer base {
@@ -66,10 +105,16 @@
 @layer components {
   .glassmorphism {
     @apply bg-opacity-20 backdrop-blur-lg border border-white/10 bg-white/5;
+    .light-mode & {
+      @apply border-black/10 bg-black/5;
+    }
   }
   
   .feature-card {
     @apply bg-card rounded-xl p-6 transition-all duration-300 hover:shadow-lg hover:shadow-contractBlue-500/10 border border-white/5;
+    .light-mode & {
+      @apply border-black/5;
+    }
   }
   
   .feature-icon {
@@ -90,6 +135,9 @@
   
   .interactive-button {
     @apply relative overflow-hidden transition-all duration-300 ease-out active:scale-95 after:absolute after:inset-0 after:z-10 after:opacity-0 after:transition-opacity hover:after:opacity-100 after:bg-gradient-to-r after:from-white/10 after:to-transparent;
+    .light-mode & {
+      @apply after:from-black/5 after:to-transparent;
+    }
   }
 
   .nav-link {
@@ -98,5 +146,8 @@
 
   .form-input {
     @apply bg-muted/50 border border-white/5 rounded-lg px-4 py-3 text-sm w-full focus:outline-none focus:ring-2 focus:ring-contractBlue-500/50 transition-all duration-200;
+    .light-mode & {
+      @apply border-black/5;
+    }
   }
 }

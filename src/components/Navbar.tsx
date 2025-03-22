@@ -6,6 +6,7 @@ import { File, Menu, X } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import AuthDialog from './AuthDialog';
+import ThemeToggle from './ThemeToggle';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,6 +36,8 @@ const Navbar = () => {
           </nav>
           
           <div className="flex items-center space-x-3">
+            <ThemeToggle />
+            
             <Dialog>
               <DialogTrigger asChild>
                 <Button 
@@ -66,9 +69,12 @@ const Navbar = () => {
           </div>
         </div>
         
-        <button className="md:hidden text-white" onClick={toggleMenu}>
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        <div className="md:hidden flex items-center space-x-2">
+          <ThemeToggle />
+          <button className="text-white" onClick={toggleMenu}>
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
       
       {/* Mobile menu */}
