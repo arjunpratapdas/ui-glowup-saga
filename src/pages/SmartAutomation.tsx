@@ -141,8 +141,8 @@ const SmartAutomation = () => {
                       {uploadedFile ? uploadedFile.name : "Drop your file here or"}
                     </p>
                     <label htmlFor="file-upload">
-                      <Button className="px-5 bg-white/10 hover:bg-white/15" as="span">
-                        Choose File
+                      <Button className="px-5 bg-white/10 hover:bg-white/15" asChild>
+                        <span>Choose File</span>
                       </Button>
                       <input
                         id="file-upload"
