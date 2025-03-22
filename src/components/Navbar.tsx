@@ -28,10 +28,10 @@ const Navbar = () => {
         
         <div className="hidden md:flex items-center space-x-8">
           <nav className="flex items-center space-x-1">
-            <Link to="/" className="nav-link">Features</Link>
-            <Link to="/" className="nav-link">Tools</Link>
-            <Link to="/" className="nav-link">Pricing</Link>
-            <Link to="/" className="nav-link">Feedback</Link>
+            <a href="#features" className="nav-link">Features</a>
+            <a href="#tools" className="nav-link">Tools</a>
+            <a href="#pricing" className="nav-link">Pricing</a>
+            <a href="#feedback" className="nav-link">Feedback</a>
           </nav>
           
           <div className="flex items-center space-x-3">
@@ -81,10 +81,10 @@ const Navbar = () => {
           className="md:hidden absolute top-16 left-0 right-0 p-5 glassmorphism border-t border-white/5"
         >
           <nav className="flex flex-col space-y-4">
-            <Link to="/" className="text-white/90 hover:text-white py-2">Features</Link>
-            <Link to="/" className="text-white/90 hover:text-white py-2">Tools</Link>
-            <Link to="/" className="text-white/90 hover:text-white py-2">Pricing</Link>
-            <Link to="/" className="text-white/90 hover:text-white py-2">Feedback</Link>
+            <a href="#features" className="text-white/90 hover:text-white py-2">Features</a>
+            <a href="#tools" className="text-white/90 hover:text-white py-2">Tools</a>
+            <a href="#pricing" className="text-white/90 hover:text-white py-2">Pricing</a>
+            <a href="#feedback" className="text-white/90 hover:text-white py-2">Feedback</a>
           </nav>
           <div className="flex flex-col space-y-3 mt-5 pt-5 border-t border-white/5">
             <Dialog>

@@ -29,10 +29,18 @@ const Index = () => {
       <div className="relative">
         <div className="absolute inset-0 bg-gradient-to-b from-muted/0 via-contractBlue-900/5 to-background z-0 pointer-events-none"></div>
         <div className="relative z-10">
-          <Features />
-          <Tools />
-          <Pricing />
-          <Feedback />
+          <section id="features">
+            <Features />
+          </section>
+          <section id="tools">
+            <Tools />
+          </section>
+          <section id="pricing">
+            <Pricing />
+          </section>
+          <section id="feedback">
+            <Feedback />
+          </section>
         </div>
       </div>
       

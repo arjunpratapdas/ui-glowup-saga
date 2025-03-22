@@ -9,28 +9,28 @@ const Footer = () => {
     {
       title: 'Product',
       links: [
-        { name: 'Features', url: '/' },
-        { name: 'Tools', url: '/' },
-        { name: 'Pricing', url: '/' },
-        { name: 'Enterprise', url: '/' },
+        { name: 'Features', url: '#features' },
+        { name: 'Tools', url: '#tools' },
+        { name: 'Pricing', url: '#pricing' },
+        { name: 'Enterprise', url: '#enterprise' },
       ]
     },
     {
       title: 'Resources',
       links: [
-        { name: 'Documentation', url: '/' },
-        { name: 'Blog', url: '/' },
-        { name: 'Case Studies', url: '/' },
-        { name: 'API', url: '/' },
+        { name: 'Documentation', url: '#' },
+        { name: 'Blog', url: '#' },
+        { name: 'Case Studies', url: '#' },
+        { name: 'API', url: '#' },
       ]
     },
     {
       title: 'Company',
       links: [
-        { name: 'About', url: '/' },
-        { name: 'Careers', url: '/' },
-        { name: 'Contact', url: '/' },
-        { name: 'Privacy', url: '/' },
+        { name: 'About', url: '#' },
+        { name: 'Careers', url: '#' },
+        { name: 'Contact', url: '#' },
+        { name: 'Privacy', url: '#' },
       ]
     }
   ];
@@ -55,9 +55,15 @@ const Footer = () => {
               <ul className="space-y-2">
                 {section.links.map((link, j) => (
                   <li key={j}>
-                    <Link to={link.url} className="text-white/60 hover:text-contractBlue-400 transition-colors text-sm">
-                      {link.name}
-                    </Link>
+                    {link.url.startsWith('#') ? (
+                      <a href={link.url} className="text-white/60 hover:text-contractBlue-400 transition-colors text-sm">
+                        {link.name}
+                      </a>
+                    ) : (
+                      <Link to={link.url} className="text-white/60 hover:text-contractBlue-400 transition-colors text-sm">
+                        {link.name}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
