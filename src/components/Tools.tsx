@@ -3,9 +3,68 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { File, FileText, Upload, Send, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { 
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
+import { toast } from "sonner";
 
 const Tools = () => {
-  const [selectedDocument, setSelectedDocument] = useState('Non-Disclosure Agreement');
+  const [selectedDocument, setSelectedDocument] = useState('non-disclosure');
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [question, setQuestion] = useState('');
+  const [contractRequirements, setContractRequirements] = useState('');
+  const [jurisdiction, setJurisdiction] = useState('');
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setUploadedFile(e.target.files[0]);
+      toast.success("File uploaded successfully", {
+        description: e.target.files[0].name
+      });
+    }
+  };
+
+  const handleAskQuestion = () => {
+    if (question.trim() === '') {
+      toast.error("Please enter a question");
+      return;
+    }
+    
+    if (!uploadedFile) {
+      toast.error("Please upload a document first");
+      return;
+    }
+
+    // Here you would typically send the question to an API
+    toast.info("Processing your question...");
+    setQuestion('');
+  };
+
+  const handleGenerateContract = () => {
+    if (!jurisdiction.trim()) {
+      toast.error("Please enter a jurisdiction");
+      return;
+    }
+
+    toast.success("Generating contract...", {
+      description: "Your " + getDocumentLabel(selectedDocument) + " is being generated"
+    });
+  };
+
+  const getDocumentLabel = (value: string) => {
+    switch (value) {
+      case 'non-disclosure': return 'Non-Disclosure Agreement';
+      case 'employment': return 'Employment Contract';
+      case 'service': return 'Service Agreement';
+      case 'partnership': return 'Partnership Agreement';
+      default: return 'Document';
+    }
+  };
   
   return (
     <div className="py-20 px-4 md:px-8 bg-gradient-to-b from-background to-muted/30">
@@ -60,9 +119,24 @@ const Tools = () => {
               <div className="border border-dashed border-white/10 rounded-lg p-8 mb-4 text-center hover:border-white/20 transition-colors bg-muted/30">
                 <div className="flex flex-col items-center">
                   <Upload className="h-10 w-10 text-white/40 mb-3" />
-                  <p className="text-white/70 mb-3">Drop your file here or</p>
-                  <Button className="px-5 bg-white/10 hover:bg-white/15">Choose File</Button>
-                  <p className="text-white/50 text-sm mt-3">No file chosen</p>
+                  <p className="text-white/70 mb-3">
+                    {uploadedFile ? uploadedFile.name : "Drop your file here or"}
+                  </p>
+                  <label htmlFor="file-upload">
+                    <Button className="px-5 bg-white/10 hover:bg-white/15" asChild>
+                      <span>Choose File</span>
+                    </Button>
+                    <input
+                      id="file-upload"
+                      type="file"
+                      className="hidden"
+                      accept=".pdf,.doc,.docx"
+                      onChange={handleFileUpload}
+                    />
+                  </label>
+                  {!uploadedFile && (
+                    <p className="text-white/50 text-sm mt-3">PDF, DOC, or DOCX files supported</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -75,13 +149,16 @@ const Tools = () => {
             </div>
             
             <div className="relative">
-              <input
+              <Input
                 type="text"
                 placeholder="Ask questions about your document..."
-                className="w-full form-input pr-10"
+                value={question}
+                onChange={(e) => setQuestion(e.target.value)}
+                className="w-full pr-10"
               />
               <button
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-contractBlue-400 hover:text-contractBlue-300"
+                onClick={handleAskQuestion}
               >
                 <Send size={18} />
               </button>
@@ -102,39 +179,55 @@ const Tools = () => {
             </div>
             
             <div className="mb-5">
-              <div className="relative mb-4">
-                <button className="w-full flex justify-between items-center bg-muted/30 border border-white/10 rounded-lg px-4 py-3 text-white/80">
-                  <span>{selectedDocument}</span>
-                  <ChevronDown size={18} />
-                </button>
+              <div className="mb-4">
+                <Select
+                  value={selectedDocument}
+                  onValueChange={setSelectedDocument}
+                >
+                  <SelectTrigger className="w-full bg-muted/30 border border-white/10">
+                    <SelectValue placeholder="Select agreement type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="non-disclosure">Non-Disclosure Agreement</SelectItem>
+                    <SelectItem value="employment">Employment Contract</SelectItem>
+                    <SelectItem value="service">Service Agreement</SelectItem>
+                    <SelectItem value="partnership">Partnership Agreement</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               
               <div className="mb-4">
                 <textarea
                   placeholder="Describe your requirements..."
                   rows={3}
-                  className="form-input resize-none h-32"
+                  className="form-input resize-none h-32 w-full"
+                  value={contractRequirements}
+                  onChange={(e) => setContractRequirements(e.target.value)}
                 />
               </div>
               
               <div className="mb-4">
-                <input
+                <Input
                   type="text"
                   placeholder="Jurisdiction"
-                  className="form-input"
+                  value={jurisdiction}
+                  onChange={(e) => setJurisdiction(e.target.value)}
                 />
               </div>
               
-              <Button className="w-full bg-gradient-blue hover:shadow-lg hover:shadow-blue-500/20 py-5 mb-4">
+              <Button 
+                className="w-full bg-gradient-blue hover:shadow-lg hover:shadow-blue-500/20 py-5 mb-4"
+                onClick={handleGenerateContract}
+              >
                 Generate Contract
               </Button>
             </div>
             
             <div className="bg-muted/30 rounded-lg p-4 mb-3">
               <h4 className="text-center text-lg font-medium mb-2">Contract Preview</h4>
-              <p className="text-white/90 text-center font-medium">MUTUAL NON-DISCLOSURE AGREEMENT</p>
+              <p className="text-center font-medium text-white/90">{getDocumentLabel(selectedDocument).toUpperCase()}</p>
               <p className="text-white/70 text-sm mt-2">
-                This Non-Disclosure Agreement (the "Agreement") is entered into as of [Date] by and between:
+                This {getDocumentLabel(selectedDocument)} (the "Agreement") is entered into as of [Date] by and between:
               </p>
             </div>
             
