@@ -66,6 +66,63 @@ const Tools = () => {
     }
   };
   
+  const renderContractPreview = () => {
+    if (selectedDocument === 'non-disclosure') {
+      return (
+        <div className="text-sm text-white/80 max-h-56 overflow-y-auto">
+          <h3 className="font-bold mb-2 text-white">MUTUAL NON-DISCLOSURE AGREEMENT</h3>
+          <p className="mb-2">This Non-Disclosure Agreement (the "Agreement") is entered into as of [Date] by and between:</p>
+          <p className="mb-2">TechStart Inc, a corporation with its principal place of business at [Address] ("Company")<br />
+          and<br />
+          [Consultant Name], an individual with address at [Address] ("Consultant")</p>
+          
+          <p className="font-semibold mt-3">1. CONFIDENTIAL INFORMATION</p>
+          <p className="mb-2">Confidential Information includes, but is not limited to:</p>
+          <ul className="list-disc pl-5 mb-2">
+            <li>Software architecture and source code</li>
+            <li>Technical specifications and documentation</li>
+            <li>Business plans and strategies</li>
+            <li>Client data and relationships</li>
+            <li>Proprietary methodologies and processes</li>
+          </ul>
+          
+          <p className="font-semibold mt-3">2. TERM</p>
+          <p className="mb-2">This Agreement shall remain in effect for a period of two (2) years from the date of execution.</p>
+          
+          <p className="font-semibold mt-3">3. NON-DISCLOSURE OBLIGATIONS</p>
+          <p className="mb-2">The Consultant agrees to:</p>
+          <ol className="list-alpha pl-5 mb-2">
+            <li>Maintain strict confidentiality of the Company's Confidential Information</li>
+            <li>Use the Confidential Information solely for the software project</li>
+            <li>Not disclose to any third party without prior written consent</li>
+            <li>[Additional terms...]</li>
+          </ol>
+          
+          <p className="mt-4 mb-2">Signed by:</p>
+          <div className="flex justify-between mt-2">
+            <div>
+              <p className="border-t border-white/30 pt-1">TechStart Inc</p>
+              <p>Date:</p>
+            </div>
+            <div>
+              <p className="border-t border-white/30 pt-1">Consultant</p>
+              <p>Date:</p>
+            </div>
+          </div>
+        </div>
+      );
+    }
+    
+    return (
+      <div>
+        <p className="text-center font-medium text-white/90">{getDocumentLabel(selectedDocument).toUpperCase()}</p>
+        <p className="text-white/70 text-sm mt-2">
+          This {getDocumentLabel(selectedDocument)} (the "Agreement") is entered into as of [Date] by and between:
+        </p>
+      </div>
+    );
+  };
+  
   return (
     <div className="py-20 px-4 md:px-8 bg-gradient-to-b from-background to-muted/30">
       <div className="max-w-7xl mx-auto">
@@ -225,10 +282,7 @@ const Tools = () => {
             
             <div className="bg-muted/30 rounded-lg p-4 mb-3">
               <h4 className="text-center text-lg font-medium mb-2">Contract Preview</h4>
-              <p className="text-center font-medium text-white/90">{getDocumentLabel(selectedDocument).toUpperCase()}</p>
-              <p className="text-white/70 text-sm mt-2">
-                This {getDocumentLabel(selectedDocument)} (the "Agreement") is entered into as of [Date] by and between:
-              </p>
+              {renderContractPreview()}
             </div>
             
             <Button variant="outline" className="w-full border-white/10 flex items-center justify-center">
