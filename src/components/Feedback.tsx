@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
+import { supabase } from '@/lib/supabase';
+import { Textarea } from '@/components/ui/textarea';
 
 const Feedback = () => {
   const [rating, setRating] = useState(0);
@@ -15,13 +17,36 @@ const Feedback = () => {
   
   const { toast } = useToast();
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!rating) {
+      toast({
+        title: "Please provide a rating",
+        description: "Your rating helps us improve our service.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
     setIsSubmitting(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      // Insert the feedback data into Supabase
+      const { data, error } = await supabase
+        .from('feedback')
+        .insert([
+          { 
+            name, 
+            email, 
+            feedback, 
+            rating,
+            created_at: new Date().toISOString() 
+          }
+        ]);
+      
+      if (error) throw error;
+      
       toast({
         title: "Feedback submitted",
         description: "Thank you for your feedback! We appreciate your input.",
@@ -32,7 +57,16 @@ const Feedback = () => {
       setName('');
       setEmail('');
       setFeedback('');
-    }, 1500);
+    } catch (error) {
+      console.error('Error submitting feedback:', error);
+      toast({
+        title: "Failed to submit feedback",
+        description: "There was an error submitting your feedback. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   
   return (
@@ -114,7 +148,7 @@ const Feedback = () => {
               <label htmlFor="feedback" className="block text-sm font-medium text-white/80 mb-1">
                 Your Feedback
               </label>
-              <textarea
+              <Textarea
                 id="feedback"
                 value={feedback}
                 onChange={(e) => setFeedback(e.target.value)}
