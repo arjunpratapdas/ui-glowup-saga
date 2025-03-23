@@ -32,6 +32,8 @@ const Feedback = () => {
     setIsSubmitting(true);
     
     try {
+      console.log('Submitting feedback to Supabase:', { name, email, feedback, rating });
+      
       // Insert the feedback data into Supabase
       const { data, error } = await supabase
         .from('feedback')
@@ -45,7 +47,12 @@ const Feedback = () => {
           }
         ]);
       
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase error details:', error);
+        throw error;
+      }
+      
+      console.log('Feedback submission successful:', data);
       
       toast({
         title: "Feedback submitted",
@@ -61,7 +68,7 @@ const Feedback = () => {
       console.error('Error submitting feedback:', error);
       toast({
         title: "Failed to submit feedback",
-        description: "There was an error submitting your feedback. Please try again.",
+        description: "There was an error submitting your feedback. Please ensure the 'feedback' table exists in your Supabase database.",
         variant: "destructive"
       });
     } finally {
