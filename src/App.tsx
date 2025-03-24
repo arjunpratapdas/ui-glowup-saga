@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { ThemeProvider } from "./components/ThemeProvider";
 import { AuthProvider } from "./contexts/AuthContext";
@@ -34,7 +34,7 @@ const App = () => (
                 <Route path="/signin" element={<SignIn />} />
                 <Route path="/signup" element={<SignUp />} />
                 
-                {/* Protected routes */}
+                {/* Protected routes with plan requirements */}
                 <Route path="/profile" element={
                   <ProtectedRoute>
                     <UserProfile />
@@ -46,17 +46,17 @@ const App = () => (
                   </ProtectedRoute>
                 } />
                 <Route path="/smart-automation" element={
-                  <ProtectedRoute>
+                  <ProtectedRoute requiredPlan="Basic">
                     <SmartAutomation />
                   </ProtectedRoute>
                 } />
                 <Route path="/compliance-audit" element={
-                  <ProtectedRoute>
+                  <ProtectedRoute requiredPlan="Basic">
                     <ComplianceAudit />
                   </ProtectedRoute>
                 } />
                 <Route path="/workflow-automation" element={
-                  <ProtectedRoute>
+                  <ProtectedRoute requiredPlan="Premium">
                     <WorkflowAutomation />
                   </ProtectedRoute>
                 } />

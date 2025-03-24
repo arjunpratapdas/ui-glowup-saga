@@ -1,20 +1,28 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, Navigate } from 'react-router-dom';
 import { Eye, EyeOff, File } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useToast } from '@/components/ui/use-toast';
+import { Spinner } from '@/components/ui/spinner';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { signIn } = useAuth();
+  const { signIn, user } = useAuth();
   const navigate = useNavigate();
+  const { toast } = useToast();
+  
+  // Redirect if already logged in
+  if (user) {
+    return <Navigate to="/profile" replace />;
+  }
   
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
   
@@ -24,7 +32,7 @@ const SignIn = () => {
     
     try {
       await signIn(email, password);
-      navigate('/profile');
+      // Successful login will automatically redirect via the user check above on next render
     } catch (error) {
       console.error('Sign in error:', error);
     } finally {
@@ -103,10 +111,7 @@ const SignIn = () => {
             >
               {isLoading ? (
                 <span className="flex items-center justify-center">
-                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
+                  <Spinner size="sm" className="mr-2" />
                   Signing in...
                 </span>
               ) : (
