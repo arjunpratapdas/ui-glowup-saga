@@ -6,6 +6,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { UserRound, FileText, ShieldAlert, Workflow } from "lucide-react";
+import { useAuth } from '@/contexts/AuthContext';
+import { Spinner } from '@/components/ui/spinner';
 
 interface UserLayoutProps {
   children: React.ReactNode;
@@ -14,19 +16,20 @@ interface UserLayoutProps {
 
 const UserLayout = ({ children, currentTab }: UserLayoutProps) => {
   const navigate = useNavigate();
-  
-  // Simulated authentication check (replace with actual auth logic)
-  const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+  const { user, isLoading } = useAuth();
   
   useEffect(() => {
-    // Redirect to home if not authenticated
-    if (!isAuthenticated) {
-      navigate('/');
-    }
-    
     // Scroll to top when the component mounts
     window.scrollTo(0, 0);
-  }, [isAuthenticated, navigate]);
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
 
   return (
     <motion.div
